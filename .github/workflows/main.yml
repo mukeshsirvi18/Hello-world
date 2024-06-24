@@ -21,7 +21,7 @@ jobs:
     - name: Build and push Docker image
       id: docker_build
       run: |
-        IMAGE_NAME=amanvermaclouddrove/dev
+        IMAGE_NAME=mukesh18s/dev
         if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
           docker build -t $IMAGE_NAME:latest .
           docker push $IMAGE_NAME:latest
