@@ -4,7 +4,7 @@ on:
     types: [labeled]
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and push Docker image for master branch
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: |
         IMAGE_NAME=mukesh18s/prod
         docker build -t $IMAGE_NAME:latest .
