@@ -1,12 +1,11 @@
-name: Build and Push Docker Image
+name: PR Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  build-and-push:
+  build-and-push-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,6 +16,6 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t mukesh18s/hello-world:latest .
-          docker push mukesh18s/hello-world:latest
+          docker build -t mukesh18s/hello-world:PR-${{ github.event.number }} .
+          docker push mukesh18s/hello-world:PR-${{ github.event.number }}
 
