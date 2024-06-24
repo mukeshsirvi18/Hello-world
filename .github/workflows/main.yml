@@ -1,22 +1,24 @@
-name: Build and Push Docker Image
+name: PR Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  build-and-push:
+  build-and-push-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to DockerHub
-        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Build and push Docker image
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
-          docker build -t mukesh18s/hello-world:latest .
-          docker push mukesh18s/hello-world:latest
+          echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+          docker buildx build -t mukesh18s/hello-world:PR-${{ github.event.number }} --push .
 
