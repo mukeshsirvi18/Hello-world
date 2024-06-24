@@ -30,3 +30,4 @@ jobs:
         IMAGE_NAME=mukesh18s/dev
         docker build -t $IMAGE_NAME:dev .
         docker push $IMAGE_NAME:dev
+        #mukesh
